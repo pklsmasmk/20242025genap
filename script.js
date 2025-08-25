@@ -27,7 +27,7 @@ function tambahBaris() {
   aksiCell.appendChild(tombolHapus);
 
   document.getElementById("nama").value = "";
-  document.getElementById("umur").value = "";
+  document.getElementById("umur").value = "";  
   document.getElementById("email").value = "";
 }
 
