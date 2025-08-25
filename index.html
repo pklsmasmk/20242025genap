@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabel Dinamis</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Tambah Teks ke Tabel</h2>
+
+    <div class="input-group">
+      <input type="text" id="inputText" class="asoy" placeholder="Masukkan teks di sini..." />
+      <div class="button-group">
+        <button id="addButton">Tambahkan</button>
+        <button id="resetButton" class="resetBtn">Hapus semua<datalist></datalist></button>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Teks</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
