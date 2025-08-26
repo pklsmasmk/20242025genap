@@ -74,7 +74,8 @@ th, td {
 }
 
 th {
-  background-color: white;
+  background-color: #007bff;
+  color : white;
 }
 
 button.deleteBtn {
