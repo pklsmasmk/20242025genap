@@ -3,9 +3,20 @@ const inputDeskripsi = document.getElementById('inputDeskripsi');
 const addBtn = document.getElementById('addBtn');
 const tableBody = document.getElementById('tableBody');
 const clearAllBtn = document.getElementById('clearAll');
+const notif = document.getElementById('notification')
 
 let count = 1;
 let dataList = [];
+
+function showNotification(message, type= "info"){
+  const notif = document.getElementById('notification');
+  notif.textContent = message;
+  notif.className = `notification show ${type}`;
+
+  setTimeout(() => {
+    notif.className = "notification";
+  }, 3000);
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   const savedData = localStorage.getItem('tableData');
@@ -23,8 +34,9 @@ addBtn.addEventListener('click', () => {
     addRow(kegiatan, deskripsi);
     inputKegiatan.value = "";
     inputDeskripsi.value = "";
+    showNotification("Data tersimpan","success")
   } else {
-    alert("Mohon isi kedua kolom!");
+    showNotification("Mohon isi kedua kolom","error")
   }
 });
 
@@ -56,6 +68,9 @@ function addRow(kegiatan, deskripsi, save = true) {
       const index = [...tableBody.children].indexOf(newRow);
       dataList[index] = { kegiatan: newKegiatan, deskripsi: newDeskripsi };
       saveData();
+      showNotification("Data Tersimpan","success")
+    } else {
+      showNotification("Perubahan dibatalkan","error")
     }
   });
 
@@ -69,6 +84,7 @@ function addRow(kegiatan, deskripsi, save = true) {
       tableBody.removeChild(newRow);
       updateRowNumbers();
       saveData();
+      showNotification("Data tersimpan","success")
     }
   });
 
@@ -106,5 +122,6 @@ clearAllBtn.addEventListener('click', () => {
     count = 1;
     dataList = [];
     saveData();
+    showNotification("Semua data dihapus","success")
   }
 });

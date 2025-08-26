@@ -117,19 +117,19 @@ button {
   display:block;
 }
 
-.notification.berhasil{
-  background:#333;
-  color:#999;
+.notification.success{
+  background:blanchedalmond;
+  color:black;
 }
 
 .notification.error {
-  background:#333;
-  color:#999;
+  background:blanchedalmond;
+  color:black;
 }
 
 .notification.info {
-  background:#e0a800;
-  color:#333;
+  background:blanchedalmond;
+  color:black;
 }
 
 table {
