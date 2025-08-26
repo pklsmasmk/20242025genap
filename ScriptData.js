@@ -6,6 +6,8 @@ $(document).ready(function () {
   const $modal = $("#alertModal");
   const $resetModal = $("#resetModal");
   const $modalText = $("#modalText");
+  const tabTriggerList = [...document.querySelectorAll('#tabMenu button')];
+  const tabList = tabTriggerList.map(tabTriggerEl => new bootstrap.Tab(tabTriggerEl));
 
   let nomorUrut = 1;
   let rowBeingEdited = null;
@@ -23,24 +25,37 @@ $(document).ready(function () {
   $("#closeModal").click(() => $modal.removeClass("show"));
   $("#cancelReset").click(() => $resetModal.removeClass("show"));
 
-  $inputs.on("keydown", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const index = $inputs.index(this);
-      const nextInput = $inputs.eq(index + 1);
-
-      if (nextInput.length) {
-        nextInput.focus();
-      } else {
-        const allFilled = $inputs.toArray().every(input => $(input).val().trim() !== "");
-        allFilled ? $form.submit() : showModal("Isi semua data yaa!");
-      }
+  function switchTab(tabId) {
+    const tabTrigger = tabTriggerList.find(btn => btn.getAttribute("data-bs-target") === "#" + tabId);
+    if(tabTrigger) {
+      bootstrap.Tab.getInstance(tabTrigger).show();
     }
+  }
+
+  $("#btnAddData").click(() => {
+    $form[0].reset();
+    rowBeingEdited = null;
+    switchTab("formTab");
+    $inputs.eq(0).focus();
   });
+
+  window.editData = function (btn) {
+    const $row = $(btn).closest("tr");
+    const index = parseInt($row.data("index"));
+    const item = savedData[index];
+
+    $("#nama").val(item.nama);
+    $("#usia").val(item.usia);
+    $("#berat").val(item.berat);
+    $("#tinggi").val(item.tinggi);
+    rowBeingEdited = $row;
+
+    switchTab("formTab");
+    $inputs.eq(0).focus();
+  };
 
   $form.on("submit", function (e) {
     e.preventDefault();
-
     const nama = $("#nama").val().trim();
     const usia = $("#usia").val().trim();
     const berat = $("#berat").val().trim();
@@ -63,7 +78,9 @@ $(document).ready(function () {
     localStorage.setItem("dataUsers", JSON.stringify(savedData));
     updateTableFromStorage();
     $form[0].reset();
-    $inputs.eq(0).focus();
+
+    switchTab("tableTab");
+    $("#btnAddData").focus();
   });
 
   $resetAllBtn.on("click", function () {
@@ -81,7 +98,6 @@ $(document).ready(function () {
 
   function tambahBarisDariStorage(item) {
     const index = savedData.indexOf(item);
-
     const row = `
       <tr data-index="${index}">
         <td>${nomorUrut}</td>
@@ -90,12 +106,11 @@ $(document).ready(function () {
         <td>${item.berat}</td>
         <td>${item.tinggi}</td>
         <td>
-          <button class="edit-button" onclick="editData(this)">Edit</button>
-          <button class="delete-button" onclick="hapusBaris(this)">Batalkan</button>
+          <button class="edit-button btn btn-sm" onclick="editData(this)">Edit</button>
+          <button class="delete-button btn btn-sm" onclick="hapusBaris(this)">Hapus</button>
         </td>
       </tr>
     `;
-
     $tableBody.append(row);
     nomorUrut++;
   }
@@ -106,26 +121,11 @@ $(document).ready(function () {
     savedData.forEach(item => tambahBarisDariStorage(item));
   }
 
-  window.editData = function (btn) {
-    const $row = $(btn).closest("tr");
-    const index = parseInt($row.data("index"));
-    const item = savedData[index];
-
-    $("#nama").val(item.nama);
-    $("#usia").val(item.usia);
-    $("#berat").val(item.berat);
-    $("#tinggi").val(item.tinggi);
-
-    rowBeingEdited = $row;
-  };
-
   window.hapusBaris = function (btn) {
     const $row = $(btn).closest("tr");
     const index = parseInt($row.data("index"));
-
     savedData.splice(index, 1);
     localStorage.setItem("dataUsers", JSON.stringify(savedData));
-
     updateTableFromStorage();
 
     if (rowBeingEdited && rowBeingEdited.is($row)) {
@@ -133,4 +133,18 @@ $(document).ready(function () {
       $form[0].reset();
     }
   };
+
+  $inputs.on("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const index = $inputs.index(this);
+      const nextInput = $inputs.eq(index + 1);
+      if (nextInput.length) {
+        nextInput.focus();
+      } else {
+        const allFilled = $inputs.toArray().every(input => $(input).val().trim() !== "");
+        allFilled ? $form.submit() : showModal("Isi semua data yaa!");
+      }
+    }
+  });
 });
