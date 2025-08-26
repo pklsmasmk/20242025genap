@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #CADCAE;
+  background: linear-gradient(to right, #88AB8E, #bddfbb);
   margin: 0;
   padding: 30px;
 }
@@ -71,6 +71,19 @@ td {
 th {
   background-color: #f0f0f0;
   color: #437057 ;
+}
+
+.edit-btn {
+  background-color: #7a7a83;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #37353E;
 }
 
 .delete-btn {
