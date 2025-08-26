@@ -7,7 +7,6 @@ const clearAllBtn = document.getElementById('clearAll');
 let count = 1;
 let dataList = [];
 
-// Load data dari localStorage saat halaman dibuka
 window.addEventListener('DOMContentLoaded', () => {
   const savedData = localStorage.getItem('tableData');
   if (savedData) {
@@ -16,16 +15,19 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Tombol tambah data
 addBtn.addEventListener('click', () => {
-  if (inputKegiatan.value.trim() !== "" && inputDeskripsi.value.trim() !== "") {
-    addRow(inputKegiatan.value, inputDeskripsi.value);
+  const kegiatan = inputKegiatan.value.trim();
+  const deskripsi = inputDeskripsi.value.trim();
+
+  if (kegiatan && deskripsi) {
+    addRow(kegiatan, deskripsi);
     inputKegiatan.value = "";
     inputDeskripsi.value = "";
+  } else {
+    alert("Mohon isi kedua kolom!");
   }
 });
 
-// Fungsi menambah baris
 function addRow(kegiatan, deskripsi, save = true) {
   const newRow = document.createElement('tr');
 
@@ -40,32 +42,34 @@ function addRow(kegiatan, deskripsi, save = true) {
 
   const actionCell = document.createElement('td');
 
-  // Tombol Edit
   const editBtn = document.createElement('button');
   editBtn.textContent = "Edit";
   editBtn.className = "edit-btn";
-  editBtn.addEventListener('click', function () {
+  editBtn.addEventListener('click', () => {
     const newKegiatan = prompt("Edit Nama Kegiatan:", kegiatanCell.textContent);
     const newDeskripsi = prompt("Edit Deskripsi:", deskripsiCell.textContent);
+
     if (newKegiatan && newDeskripsi) {
       kegiatanCell.textContent = newKegiatan;
       deskripsiCell.textContent = newDeskripsi;
+
       const index = [...tableBody.children].indexOf(newRow);
       dataList[index] = { kegiatan: newKegiatan, deskripsi: newDeskripsi };
       saveData();
     }
   });
 
-  // Tombol Hapus
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = "Hapus";
   deleteBtn.className = "delete-btn";
-  deleteBtn.addEventListener('click', function () {
-    const index = [...tableBody.children].indexOf(newRow);
-    dataList.splice(index, 1);
-    tableBody.removeChild(newRow);
-    updateRowNumbers();
-    saveData();
+  deleteBtn.addEventListener('click', () => {
+    if (confirm("Yakin ingin menghapus data ini?")) {
+      const index = [...tableBody.children].indexOf(newRow);
+      dataList.splice(index, 1);
+      tableBody.removeChild(newRow);
+      updateRowNumbers();
+      saveData();
+    }
   });
 
   actionCell.appendChild(editBtn);
@@ -96,9 +100,11 @@ function saveData() {
   localStorage.setItem('tableData', JSON.stringify(dataList));
 }
 
-clearAllBtn.addEventListener('click', function () {
-  tableBody.innerHTML = "";
-  count = 1;
-  dataList = [];
-  saveData();
+clearAllBtn.addEventListener('click', () => {
+  if (confirm("Yakin ingin menghapus SEMUA data?")) {
+    tableBody.innerHTML = "";
+    count = 1;
+    dataList = [];
+    saveData();
+  }
 });

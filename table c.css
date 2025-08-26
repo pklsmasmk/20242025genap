@@ -105,6 +105,33 @@ button {
   background-color: darkred;
 }
 
+.notification {
+  margin-top:10px;
+  padding:10px;
+  border-radius:6px;
+  display:none;
+  font-weight:italic;
+}
+
+.notification.show {
+  display:block;
+}
+
+.notification.berhasil{
+  background:#333;
+  color:#999;
+}
+
+.notification.error {
+  background:#333;
+  color:#999;
+}
+
+.notification.info {
+  background:#e0a800;
+  color:#333;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
