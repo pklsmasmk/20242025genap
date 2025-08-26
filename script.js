@@ -1,5 +1,5 @@
 let count = 1;
-let rowBeingEdited = null; // simpan baris yang sedang diedit
+let rowBeingEdited = null;
 
 document.getElementById('addButton').addEventListener('click', function () {
   const input = document.getElementById('inputText');
@@ -8,16 +8,16 @@ document.getElementById('addButton').addEventListener('click', function () {
 
   const tableBody = document.getElementById('tableBody');
 
-  // jika sedang mode edit
+ 
   if (rowBeingEdited) {
-    rowBeingEdited.cells[1].textContent = inputText; // update teks di kolom kedua
+    rowBeingEdited.cells[1].textContent = inputText;
     rowBeingEdited = null;
-    document.getElementById('addButton').textContent = "Tambahkan"; // kembalikan tombol
+    document.getElementById('addButton').textContent = "Tambahkan";
     input.value = '';
     return;
   }
 
-  // jika mode tambah data baru
+ 
   const row = document.createElement('tr');
 
   const noCell = document.createElement('td');
@@ -26,27 +26,26 @@ document.getElementById('addButton').addEventListener('click', function () {
   const textCell = document.createElement('td');
   textCell.textContent = inputText;
 
-  // kolom aksi
+
   const actionCell = document.createElement('td');
 
-  // tombol edit
   const editBtn = document.createElement('button');
   editBtn.textContent = 'Edit';
   editBtn.className = 'editBtn';
   editBtn.addEventListener('click', function () {
     document.getElementById('inputText').value = textCell.textContent;
-    document.getElementById('addButton').textContent = "Update"; // ubah tombol jadi update
+    document.getElementById('addButton').textContent = "Update";
     rowBeingEdited = row;
   });
 
-  // tombol hapus
+
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = 'Hapus';
   deleteBtn.className = 'deleteBtn';
   deleteBtn.addEventListener('click', function () {
     tableBody.removeChild(row);
     updateNumbers();
-    // jika baris yang dihapus sedang diedit → reset
+
     if (rowBeingEdited === row) {
       rowBeingEdited = null;
       document.getElementById('addButton').textContent = "Tambahkan";
@@ -66,7 +65,7 @@ document.getElementById('addButton').addEventListener('click', function () {
   input.value = '';
 });
 
-// fungsi update nomor urut
+
 function updateNumbers() {
   const rows = document.querySelectorAll('#tableBody tr');
   count = 1;
@@ -75,7 +74,7 @@ function updateNumbers() {
   });
 }
 
-// tombol reset semua
+
 document.getElementById('resetButton').addEventListener('click', function () {
   if (confirm("Yakin ingin menghapus semua data?")) {
     document.getElementById('tableBody').innerHTML = '';
