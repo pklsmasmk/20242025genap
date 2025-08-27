@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tabel Dinamis</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
   <div class="container">
-    <h2>Tambah teks ke tabel</h2>
+    <h1>Tambah teks ke tabel</h1>
 
     <div class="input-group">
-      <input type="text" id="inputText" class="asoy" placeholder="Masukkan teks di sini..." />
+      
+      <input type="text" id="inputText" class="cihuy" placeholder="Masukkan teks" autocomplete="off" />
+      
       <div class="button-group">
-        <button id="addButton">Tambahkan</button>
-        <button id="resetButton" class="resetBtn">Hapus semua</button>
+        <button id="addButton" type="button">Tambahkan</button>
+        <button id="resetButton" class="resetBtn" type="button">Hapus semua</button>
+      </div>
+    </div>
+
+    
+    <div id="resetModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" tabindex="-1">
+      <div class="modal-content">
+        <p id="modalTitle">Yakin ingin menghapus semua data?</p>
+        <div class="modal-actions">
+          <button id="confirmReset" class="btn-danger" type="button">Hapus</button>
+          <button id="cancelReset" class="btn-cancel" type="button">Batal</button>
+        </div>
       </div>
     </div>
 
@@ -24,11 +37,13 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Teks</th>
+          <th>Kegiatan</th>
+          <th>Waktu</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody id="tableBody">
+        
       </tbody>
     </table>
   </div>

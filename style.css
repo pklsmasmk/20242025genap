@@ -2,46 +2,57 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   padding: 20px;
+  margin: 0;
 }
 
 .container {
-  background: white;
-  padding: 20px;
+  background: #fff;
+  padding: 40px 30px; /* dikurangi agar tidak terlalu tebal */
   max-width: 600px;
   margin: auto;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+h1 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .input-group {
   display: flex;
-  gap: 5px;
-  margin-bottom: 10px;
+  gap: 10px; /* sedikit lebih renggang */
+  margin-bottom: 15px;
 }
 
-input.asoy {
+input.cihuy {
   flex: 1;
-  padding: 10px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 15px;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+}
+
+input.cihuy:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 .button-group {
   display: flex;
-  gap: 5px;
+  gap: 10px;
 }
 
 button#addButton {
-  padding: 10px;
+  padding: 10px 16px;
   background-color: #28a745;
   border: none;
   color: white;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button#addButton:hover {
@@ -49,59 +60,145 @@ button#addButton:hover {
 }
 
 button.resetBtn {
-  padding: 10px;
-  background-color: #ff9800;
+  padding: 10px 16px;
+  background-color: #dc3545;
   border: none;
   color: white;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button.resetBtn:hover {
-  background-color: #e68900;
+  background-color: #c82333;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 th, td {
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  font-size: 14px;
 }
 
 th {
   background-color: #007bff;
-  color : white;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+button.editBtn, button.deleteBtn {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
+}
+
+button.editBtn {
+  background-color: #007bff;
+  margin-right: 5px;
+}
+
+button.editBtn:hover {
+  background-color: #0069d9;
 }
 
 button.deleteBtn {
   background-color: #dc3545;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 button.deleteBtn:hover {
   background-color: #c82333;
 }
 
-
-button.editBtn {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 5px;
+/* Overlay gelap layar penuh */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* gelap transparan */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
-button.editBtn:hover {
-  background-color: #0069d9;
+/* Konten modal */
+.modal-content {
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* Tombol modal */
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 30px 15px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .button-group {
+    justify-content: space-between;
+  }
+
+  button#addButton, button.resetBtn {
+    width: 100%;
+  }
+  
+  table, th, td {
+    font-size: 13px;
+  }
 }
