@@ -1,43 +1,62 @@
-document.getElementById("tambahBtn").addEventListener("click", tambahBaris);
+$(document).ready(function () {
+  function tambahData() {
+    const nama = $("#nama").val().trim();
+    const umur = $("#umur").val().trim();
+    const email = $("#email").val().trim();
 
-function tambahBaris() {
-  const nama = document.getElementById("nama").value.trim();
-  const umur = document.getElementById("umur").value.trim();
-  const email = document.getElementById("email").value.trim();
+    if (!nama || !umur || !email) {
+      alert("Dimohon isi semua kolomnya!");
+      return;
+    }
 
-  if (!nama || !umur || !email) {
-    alert("Dimohon isi semua kolomnya!");
-    return;
+    const $tabelBody = $("#dataTabel tbody");
+    const $baris = $("<tr>");
+
+    $("<td>").text(nama).appendTo($baris);
+    $("<td>").text(umur).appendTo($baris);
+    $("<td>").text(email).appendTo($baris);
+
+    const $aksiCell = $("<td>");
+
+    const $tombolEdit = $("<button>")
+      .text("Edit")
+      .addClass("edit-btn")
+      .on("click", function () {
+        $("#nama").val($baris.find("td:eq(0)").text());
+        $("#umur").val($baris.find("td:eq(1)").text());
+        $("#email").val($baris.find("td:eq(2)").text());
+
+        $("#tambahBtn")
+          .text("Simpan")
+          .off("click")
+          .on("click", function simpanEdit() {
+            $baris.find("td:eq(0)").text($("#nama").val());
+            $baris.find("td:eq(1)").text($("#umur").val());
+            $baris.find("td:eq(2)").text($("#email").val());
+
+            $("#nama").val("");
+            $("#umur").val("");
+            $("#email").val("");
+
+            $("#tambahBtn").text("Tambah").off("click").on("click", tambahData);
+          });
+      });
+
+    const $tombolHapus = $("<button>")
+      .text("Hapus")
+      .addClass("delete-btn")
+      .on("click", function () {
+        $baris.remove();
+      });
+
+    $aksiCell.append($tombolEdit, $tombolHapus);
+    $baris.append($aksiCell);
+    $tabelBody.append($baris);
+
+    $("#nama").val("");
+    $("#umur").val("");
+    $("#email").val("");
   }
 
-  const tabelBody = document.querySelector("#dataTabel tbody");
-  const baris = tabelBody.insertRow();
-
-  baris.insertCell(0).textContent = nama;
-  baris.insertCell(1).textContent = umur;
-  baris.insertCell(2).textContent = email;
-
-  const aksiCell = baris.insertCell(3);
-  const tombolEdit = document.createElement("button");
-  tombolEdit.textContent = "Edit";
-  tombolEdit.className = "edit-btn";
-  tombolEdit.onclick = function () {
-    document.getElementById("nama").value = baris.cells[0].textContent;
-    document.getElementById("umur").value = baris.cells[1].textContent;
-    document.getElementById("email").value = baris.cells[2].textContent;
-    tabelBody.removeChild(baris);
-  };
-  const tombolHapus = document.createElement("button");
-  tombolHapus.textContent = "Hapus";
-  tombolHapus.className = "delete-btn";
-  tombolHapus.onclick = function () {
-    tabelBody.removeChild(baris);
-  };
-
-  aksiCell.appendChild(tombolEdit);
-  aksiCell.appendChild(tombolHapus);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  document.getElementById("nama").value = "";
-  document.getElementById("umur").value = "";
-  document.getElementById("email").value = "";
-}
+  $("#tambahBtn").on("click", tambahData);
+});
