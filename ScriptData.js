@@ -6,8 +6,7 @@ $(document).ready(function () {
   const $modal = $("#alertModal");
   const $resetModal = $("#resetModal");
   const $modalText = $("#modalText");
-  const tabTriggerList = [...document.querySelectorAll('#tabMenu button')];
-  const tabList = tabTriggerList.map(tabTriggerEl => new bootstrap.Tab(tabTriggerEl));
+  const $tabTriggers = $("#tabMenu button");
 
   let nomorUrut = 1;
   let rowBeingEdited = null;
@@ -22,17 +21,18 @@ $(document).ready(function () {
     $modal.addClass("show");
   }
 
-  $("#closeModal").click(() => $modal.removeClass("show"));
-  $("#cancelReset").click(() => $resetModal.removeClass("show"));
+  $("#closeModal").on("click", () => $modal.removeClass("show"));
+  $("#cancelReset").on("click", () => $resetModal.removeClass("show"));
 
   function switchTab(tabId) {
-    const tabTrigger = tabTriggerList.find(btn => btn.getAttribute("data-bs-target") === "#" + tabId);
-    if(tabTrigger) {
-      bootstrap.Tab.getInstance(tabTrigger).show();
+    const $trigger = $tabTriggers.filter(`[data-bs-target="#${tabId}"]`);
+    if ($trigger.length) {
+      const tabInstance = bootstrap.Tab.getInstance($trigger[0]) || new bootstrap.Tab($trigger[0]);
+      tabInstance.show();
     }
   }
 
-  $("#btnAddData").click(() => {
+  $("#btnAddData").on("click", function () {
     $form[0].reset();
     rowBeingEdited = null;
     switchTab("formTab");
@@ -41,15 +41,15 @@ $(document).ready(function () {
 
   window.editData = function (btn) {
     const $row = $(btn).closest("tr");
-    const index = parseInt($row.data("index"));
+    const index = parseInt($row.attr("data-index"));
     const item = savedData[index];
 
     $("#nama").val(item.nama);
     $("#usia").val(item.usia);
     $("#berat").val(item.berat);
     $("#tinggi").val(item.tinggi);
-    rowBeingEdited = $row;
 
+    rowBeingEdited = $row;
     switchTab("formTab");
     $inputs.eq(0).focus();
   };
@@ -68,7 +68,7 @@ $(document).ready(function () {
     const dataItem = { nama, usia, berat, tinggi };
 
     if (rowBeingEdited) {
-      const index = parseInt(rowBeingEdited.data("index"));
+      const index = parseInt(rowBeingEdited.attr("data-index"));
       savedData[index] = dataItem;
       rowBeingEdited = null;
     } else {
@@ -78,7 +78,6 @@ $(document).ready(function () {
     localStorage.setItem("dataUsers", JSON.stringify(savedData));
     updateTableFromStorage();
     $form[0].reset();
-
     switchTab("tableTab");
     $("#btnAddData").focus();
   });
@@ -91,8 +90,8 @@ $(document).ready(function () {
 
   $("#confirmReset").on("click", function () {
     savedData = [];
-    updateTableFromStorage();
     localStorage.removeItem("dataUsers");
+    updateTableFromStorage();
     $resetModal.removeClass("show");
   });
 
@@ -123,7 +122,7 @@ $(document).ready(function () {
 
   window.hapusBaris = function (btn) {
     const $row = $(btn).closest("tr");
-    const index = parseInt($row.data("index"));
+    const index = parseInt($row.attr("data-index"));
     savedData.splice(index, 1);
     localStorage.setItem("dataUsers", JSON.stringify(savedData));
     updateTableFromStorage();
@@ -138,9 +137,9 @@ $(document).ready(function () {
     if (e.key === "Enter") {
       e.preventDefault();
       const index = $inputs.index(this);
-      const nextInput = $inputs.eq(index + 1);
-      if (nextInput.length) {
-        nextInput.focus();
+      const $nextInput = $inputs.eq(index + 1);
+      if ($nextInput.length) {
+        $nextInput.focus();
       } else {
         const allFilled = $inputs.toArray().every(input => $(input).val().trim() !== "");
         allFilled ? $form.submit() : showModal("Isi semua data yaa!");
