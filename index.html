@@ -3,51 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tabel Dinamis</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Tabel input data</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body class="bg-light">
 
-  <div class="container">
-    <h1>Tambah teks ke tabel</h1>
+  <div class="container mt-4 p-4 bg-white rounded shadow">
+    <h2 class="text-center mb-4">Manajemen Kegiatan</h2>
 
-    <div class="input-group">
-      
-      <input type="text" id="inputText" class="cihuy" placeholder="Masukkan teks" autocomplete="off" />
-      
-      <div class="button-group">
-        <button id="addButton" type="button">Tambahkan</button>
-        <button id="resetButton" class="resetBtn" type="button">Hapus semua</button>
+    <!-- 🔔 Notifikasi di atas tabel -->
+    <div id="notifContainer" class="d-none">
+      <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        ✅ Data berhasil dihapus.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     </div>
 
-    
-    <div id="resetModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" tabindex="-1">
-      <div class="modal-content">
-        <p id="modalTitle">Yakin ingin menghapus semua data?</p>
-        <div class="modal-actions">
-          <button id="confirmReset" class="btn-danger" type="button">Hapus</button>
-          <button id="cancelReset" class="btn-cancel" type="button">Batal</button>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab">Data Tersimpan</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="input-tab" data-bs-toggle="tab" data-bs-target="#input" type="button" role="tab">Input Data</button>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="myTabContent">
+
+      <div class="tab-pane fade show active" id="data" role="tabpanel">
+        <table class="table table-bordered table-striped text-center">
+          <thead class="table-primary">
+            <tr>
+              <th>No</th>
+              <th>Kegiatan</th>
+              <th>Tempat</th>
+              <th>Waktu</th>
+              <th>Tombol</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="input" role="tabpanel">
+        <div class="mb-3">
+          <label for="inputKegiatan" class="form-label">Kegiatan</label>
+          <input type="text" id="inputKegiatan" class="form-control" placeholder="Masukkan nama kegiatan" autocomplete="off">
+        </div>
+        <div class="mb-3">
+          <label for="inputTempat" class="form-label">Tempat</label>
+          <input type="text" id="inputTempat" class="form-control" placeholder="Masukkan nama tempat" autocomplete="off">
+        </div>
+        <div class="mb-3">
+          <label for="inputTime" class="form-label">Waktu</label>
+          <input type="time" id="inputTime" class="form-control">
+        </div>
+        <div class="d-flex gap-2">
+          <button id="addButton" class="btn btn-success flex-fill" type="button"
+            onclick="new bootstrap.Tab(document.querySelector('#data-tab')).show()">
+            Tambahkan
+          </button>
+          <button id="resetButton" class="btn btn-danger flex-fill" type="button">Hapus semua</button>
         </div>
       </div>
     </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Kegiatan</th>
-          <th>Waktu</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-        
-      </tbody>
-    </table>
   </div>
 
+  <!-- Modal konfirmasi reset -->
+  <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <p id="modalTitle">Yakin ingin menghapus semua data?</p>
+          <div class="d-flex justify-content-center gap-2 mt-3">
+            <button id="confirmReset" class="btn btn-danger">Hapus</button>
+            <button id="cancelReset" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
