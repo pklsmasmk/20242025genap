@@ -19,8 +19,7 @@ form {
   gap: 15px;
 }
 
-form input,
-form button {
+form input, form button {
   padding: 12px;
   font-size: 15px;
   border-radius: 8px;
@@ -54,6 +53,7 @@ form button:hover {
 form .submit-btn {
   background: linear-gradient(135deg, #89a88a, #6b8a6b);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 form .submit-btn:hover {
@@ -113,29 +113,32 @@ td button:hover {
   transform: scale(1.05);
 }
 
-.edit-button {
+.edit-btn {
   background: #4a8b6f;
   box-shadow: 0 3px 8px rgba(74, 139, 111, 0.5);
+  color: white;
 }
 
-.edit-button:hover {
+.edit-btn:hover {
   background: #3b6b57;
   box-shadow: 0 5px 12px rgba(59, 107, 87, 0.6);
 }
 
-.delete-button {
+.delete-btn {
   background: #b05a5a;
   box-shadow: 0 3px 8px rgba(176, 90, 90, 0.5);
+  color: white;
 }
 
-.delete-button:hover {
+.delete-btn:hover {
   background: #893f3f;
   box-shadow: 0 5px 12px rgba(137, 63, 63, 0.6);
 }
 
 .modal {
   position: fixed;
-  top: 0; left: 0;
+  top: 0; 
+  left: 0;
   width: 100vw; height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -197,13 +200,36 @@ td button:hover {
   background: #7c6f64;
 }
 
+.nav-link {
+  color: #f85757;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.nav-link:hover {
+  background-color: #f1c9c9;
+  color: #e42020;
+}
+
+.nav-link.active {
+  background-color: #f1c9c9;
+  color: white;
+  border-color: #f1c9c9;
+}
+
+.nav-link:focus {
+  outline: 2px solid #f66d9b;
+  outline-offset: 2px;
+}
+
 @media (max-width: 600px) {
   form {
     flex-direction: column;
   }
 
-  form input,
-  form button {
+  form input, form button {
     width: 100%;
   }
 
