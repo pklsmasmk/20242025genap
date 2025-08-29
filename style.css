@@ -1,17 +1,8 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f6f9;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
   padding: 20px;
   margin: 0;
-}
-
-.container {
-  background: #fff;
-  padding: 40px 50px;
-  max-width: 600px;
-  margin: 40px auto; 
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 h1 {
@@ -191,24 +182,6 @@ button.deleteBtn:hover {
   display: none;
   animation: fadeIn 0.4s ease;
 }
-
-.notif-success {
-  background-color: #28a745;
-}
-
-.notif-danger {
-  background-color: #dc3545;
-}
-
-.notif-warning {
-  background-color: #ffc107;
-  color: #333;
-}
-
-.notif-info {
-  background-color: #007bff;
-}
-
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }

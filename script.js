@@ -94,7 +94,6 @@ $(document).ready(function () {
     let resetModal = bootstrap.Modal.getInstance(document.getElementById("resetModal"));
     resetModal.hide();
 
-    // tampilkan notif di atas tabel
     showNotification();
 
     saveToLocalStorage();
