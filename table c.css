@@ -1,154 +1,74 @@
 body {
+  background: linear-gradient(#1e293b );
+  color: #1e293b;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  padding: 0;
 }
 
 .container {
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 30px;
+  margin-top: 40px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  table-layout: fixed; /* Membuat kolom punya lebar tetap */
-}
-
-th, td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-  word-wrap: break-word;   /* Pecah kata panjang */
-  white-space: normal;     /* Supaya bisa turun baris */
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.nav-tabs > li > a {
   color: #333;
+  background-color: #f9f9f9;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
 }
 
-input {
-  display: block;
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: border 0.3s;
+.nav-tabs > li > a:hover {
+  background-color: #1e293b;
+  color: #fff;
+}
+h2 {
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #334155;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
+.custom-table th {
+  background: #1e293b;
+  color: #fff;
+  text-align: center;
 }
 
-button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s;
+.custom-table td {
+  vertical-align: middle;
 }
 
-.add-btn {
-  background-color: #28a745;
-  color: white;
-  margin-bottom: 10px;
-}
-.add-btn:hover {
-  background-color: #218838;
+.input-custom {
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.delete-btn {
-  background-color: #dc3545;
-  color: white;
-}
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.edit-btn {
-  background-color: #ffc107;
-  color: black;
-  margin-right: 5px;
-}
-.edit-btn:hover {
-  background-color: #e0a800;
-}
-
-.clear-btn {
-  background-color: red;
-  color: white;
-  margin-left: 10px;
-}
-.clear-btn:hover {
-  background-color: darkred;
+.btn {
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 500;
 }
 
 .notification {
-  margin-top:10px;
-  padding:10px;
-  border-radius:6px;
-  display:none;
-  font-weight:italic;
+  position: fixed;
+  top: 20px;
+  right:20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: none;
+  z-index: 9999;
+  color: #fff;
 }
 
-.notification.show {
-  display:block;
-}
+.notification.success { background: #16a34a; }
+.notification.error { background: #dc2626; }
+.notification.warning { background: #d97706; }
+.notification.info { background: #2563eb; }
 
-.notification.success{
-  background:blanchedalmond;
-  color:black;
-}
-
-.notification.error {
-  background:blanchedalmond;
-  color:black;
-}
-
-.notification.info {
-  background:blanchedalmond;
-  color:black;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th, td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
+.label-prioritas-tinggi { background: #dc2626; }
+.label-prioritas-sedang { background: #d97706; }
+.label-prioritas-rendah { background: #16a34a; }
+.label-status-belum { background: #2563eb; }
+.label-status-sudah { background: #16a34a; }

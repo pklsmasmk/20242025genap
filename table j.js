@@ -1,114 +1,105 @@
-$(document).ready(function () {
-  let count = 1;
-  let dataList = [];
+$(function () {
+  let count = 1
+  let dataList = []
 
-  function showNotification(message, type = "info") {
-    $("#notification")
-      .stop(true, true)
-      .text(message)
-      .removeClass()
-      .addClass(`notification show ${type}`)
-      .fadeIn(200)
-      .delay(2000)
-      .fadeOut(500);
+  function renderTable() {
+    const $tbody = $("#tableBody").empty()
+    $.each(dataList, function (index, data) {
+      let prioritasClass = data.prioritas === "Tinggi" ? "label-prioritas-tinggi" :
+                           data.prioritas === "Sedang" ? "label-prioritas-sedang" :
+                           "label-prioritas-rendah"
+      let statusClass = data.status === "Belum" ? "label-status-belum" : "label-status-sudah"
+
+      $tbody.append(`
+        <tr>
+          <td class="text-center">${index + 1}</td>
+          <td>${escapeHtml(data.kegiatan)}</td>
+          <td>${escapeHtml(data.deskripsi)}</td>
+          <td class="text-center"><span class="label ${prioritasClass}">${data.prioritas}</span></td>
+          <td class="text-center"><span class="label ${statusClass}">${data.status}</span></td>
+          <td class="text-center">
+            <button class="btn btn-primary btn-xs btn-edit" data-id="${data.id}">Edit</button>
+            <button class="btn btn-danger btn-xs btn-delete" data-id="${data.id}">Hapus</button>
+            <button class="btn btn-warning btn-xs btn-done" data-id="${data.id}">Selesai</button>
+          </td>
+        </tr>
+      `)
+    })
   }
 
-  const savedData = localStorage.getItem("tableData");
-  if (savedData) {
-    dataList = JSON.parse(savedData);
-    dataList.forEach((item) => addRow(item.kegiatan, item.deskripsi, false));
+  function showNotification(message, type) {
+    $("#notification").stop(true, true).text(message).removeClass().addClass(`notification show ${type}`).fadeIn(200).delay(2000).fadeOut(500)
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"'`=\/]/g, s =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'}[s])
+    )
   }
 
   $("#addBtn").on("click", function () {
-    const kegiatan = $("#inputKegiatan").val().trim();
-    const deskripsi = $("#inputDeskripsi").val().trim();
-
+    const kegiatan = $("#inputKegiatan").val().trim()
+    const deskripsi = $("#inputDeskripsi").val().trim()
+    const prioritas = $("#inputPrioritas").val()
+    const status = $("#inputStatus").val()
     if (kegiatan && deskripsi) {
-      addRow(kegiatan, deskripsi);
-      $("#inputKegiatan, #inputDeskripsi").val("");
-      showNotification("Data berhasil ditambahkan", "success");
+      dataList.push({ id: count++, kegiatan, deskripsi, prioritas, status })
+      renderTable()
+      showNotification("Kegiatan berhasil ditambahkan", "success")
+      $("#inputKegiatan, #inputDeskripsi").val("")
+      $('a[href="#tabData"]').tab('show')
     } else {
-      showNotification("Mohon isi kedua kolom", "error");
+      showNotification("Isi dulu", "error")
     }
-  });
-
-  function addRow(kegiatan, deskripsi, save = true) {
-    const newRow = $(`
-      <tr>
-        <td>${count++}</td>
-        <td class="kegiatan-cell">${kegiatan}</td>
-        <td class="deskripsi-cell">${deskripsi}</td>
-        <td>
-          <button class="edit-btn">Edit</button>
-          <button class="delete-btn">Hapus</button>
-        </td>
-      </tr>
-    `);
-
-    newRow.find(".edit-btn").on("click", function () {
-      const row = $(this).closest("tr");
-      const kegiatanCell = row.find(".kegiatan-cell");
-      const deskripsiCell = row.find(".deskripsi-cell");
-
-      if ($(this).text() === "Edit") {
-        kegiatanCell.html(`<input type="text" value="${kegiatanCell.text()}">`);
-        deskripsiCell.html(`<input type="text" value="${deskripsiCell.text()}">`);
-        $(this).text("Simpan");
-      } else {
-        const newKegiatan = kegiatanCell.find("input").val().trim();
-        const newDeskripsi = deskripsiCell.find("input").val().trim();
-
-        if (newKegiatan && newDeskripsi) {
-          kegiatanCell.text(newKegiatan);
-          deskripsiCell.text(newDeskripsi);
-
-          const index = row.index();
-          dataList[index] = { kegiatan: newKegiatan, deskripsi: newDeskripsi };
-          saveData();
-          showNotification("Data berhasil diedit", "success");
-        } else {
-          showNotification("Data tidak boleh kosong", "error");
-        }
-        $(this).text("Edit");
-      }
-    });
-
-    newRow.find(".delete-btn").on("click", function () {
-      const row = $(this).closest("tr");
-      const index = row.index();
-      dataList.splice(index, 1);
-      row.remove();
-      updateRowNumbers();
-      saveData();
-      showNotification("Data berhasil dihapus", "success");
-    });
-
-    $("#tableBody").append(newRow);
-
-    if (save) {
-      dataList.push({ kegiatan, deskripsi });
-      saveData();
-    }
-  }
-
-  function updateRowNumbers() {
-    count = 1;
-    $("#tableBody tr").each(function () {
-      $(this).find("td:first").text(count++);
-    });
-  }
-
-  function saveData() {
-    localStorage.setItem("tableData", JSON.stringify(dataList));
-  }
+  })
 
   $("#clearAll").on("click", function () {
-    if (confirm("Yakin ingin menghapus semua data?")) {
-      $("#tableBody").empty();
-      count = 1;
-      dataList = [];
-      saveData();
-      showNotification("Semua data dihapus", "success");
+    if (dataList.length === 0) {
+      showNotification("Mana wok yang dihapus", "warning")
+      return
     }
-  });
-});
+    if (confirm("Udah ga penting?")) {
+      dataList = []
+      count = 1
+      renderTable()
+      showNotification("Semua data berhasil dihapus", "success")
+    }
+  })
+
+  $("#clearAllInput").on("click", function () {
+    $("#inputForm")[0].reset()
+    showNotification("Form direset", "info")
+  })
+
+  $(document).on("click", ".btn-delete", function () {
+    const id = Number($(this).data("id"))
+    dataList = dataList.filter(d => d.id !== id)
+    renderTable()
+    showNotification("Data dihapus", "success")
+  })
+
+  $(document).on("click", ".btn-edit", function () {
+    const id = Number($(this).data("id"))
+    const data = dataList.find(d => d.id === id)
+    if (data) {
+      $("#inputKegiatan").val(data.kegiatan)
+      $("#inputDeskripsi").val(data.deskripsi)
+      $("#inputPrioritas").val(data.prioritas)
+      $("#inputStatus").val(data.status)
+      dataList = dataList.filter(d => d.id !== id)
+      renderTable()
+      $('a[href="#tabInput"]').tab('show')
+      showNotification("Edit data, Simpan lagi", "info")
+    }
+  })
+
+  $(document).on("click", ".btn-done", function () {
+    const id = Number($(this).data("id"))
+    const data = dataList.find(d => d.id === id)
+    if (data) {
+      data.status = data.status === "Sudah" ? "Belum" : "Sudah"
+      renderTable()
+      showNotification("Status diubah menjadi " + data.status, "info")
+    }
+  })
+})
